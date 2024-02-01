@@ -1,10 +1,13 @@
+TERRAFORM := terraform
+
 all: terraform ansible
 
 ansible:
 	ansible-playbook -i inventory.ini playbook.yml
 
 terraform:
-	terraform init
-	terraform apply
+	$(TERRAFORM) init
+	$(TERRAFORM) plan
+	$(TERRAFORM) apply
 
 .PHONY: all ansible terraform
