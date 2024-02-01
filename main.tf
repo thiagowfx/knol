@@ -36,4 +36,5 @@ resource "local_file" "ansible_inventory" {
 ${linode_instance.nanode.ip_address} ansible_user=root
 EOF
   filename = "inventory.ini"
+  file_permission = "0644"
 }
