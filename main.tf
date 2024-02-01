@@ -33,7 +33,7 @@ resource "linode_instance" "nanode" {
 resource "local_file" "ansible_inventory" {
   content  = <<-EOF
 [all]
-${linode_instance.nanode.ip_address}
+${linode_instance.nanode.ip_address} ansible_user=root
 EOF
   filename = "inventory.ini"
 }
