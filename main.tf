@@ -19,7 +19,7 @@ locals {
   keys = jsondecode(data.http.github_keys.response_body)[*].key
 }
 
-resource "linode_instance" "coruscant" {
+resource "linode_instance" "nanode" {
   type             = "g6-nanode-1"
   image            = "linode/alpine3.19"
   label            = var.linode_hostname
@@ -28,4 +28,12 @@ resource "linode_instance" "coruscant" {
   backups_enabled  = "false"
   booted           = "true"
   watchdog_enabled = "true"
+}
+
+resource "local_file" "ansible_inventory" {
+  content  = <<-EOF
+[all]
+${linode_instance.nanode.ip_address}
+EOF
+  filename = "inventory.ini"
 }
