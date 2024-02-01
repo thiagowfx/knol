@@ -10,4 +10,7 @@ terraform:
 	$(TERRAFORM) plan
 	$(TERRAFORM) apply
 
-.PHONY: all ansible terraform
+clean:
+	$(TERRAFORM) destroy
+
+.PHONY: all ansible terraform clean
