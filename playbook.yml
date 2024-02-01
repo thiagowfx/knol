@@ -1,0 +1,50 @@
+---
+- hosts: all
+  tasks:
+
+    # - name: Update the package cache and upgrade the system
+    #   community.general.apk:
+    #     update_cache: true
+    #     upgrade: true
+
+    - name: Install the firewall (ufw)
+      community.general.apk:
+        name: ufw
+        state: present
+    - name: Enable the firewall and deny everything by default
+      community.general.ufw:
+        state: enabled
+        policy: deny
+    - name: Limit SSH
+      community.general.ufw:
+        rule: limit
+        port: ssh
+        proto: tcp
+    - name: Allow HTTP
+      community.general.ufw:
+        rule: allow
+        port: http
+        proto: tcp
+    - name: Allow HTTPS
+      community.general.ufw:
+        rule: allow
+        port: https
+        proto: tcp
+
+    - name: Install the web server (nginx)
+      community.general.apk:
+        name: nginx
+        state: present
+    - name: Start the web server
+      service:
+        name: nginx
+        state: started
+
+    - name: Install the RSS reader (miniflux)
+      community.general.apk:
+        name: miniflux
+        state: present
+    - name: Start the RSS reader
+      service:
+        name: miniflux
+        state: started
